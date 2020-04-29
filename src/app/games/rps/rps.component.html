@@ -32,15 +32,15 @@
     <legend *ngIf="myPick">You have picked {{ myPick }} awaiting opponent...</legend>
     <div class="d-flex">
         <div *ngIf="!myPick || myPick === 'rock'" class="border m-1 rock" (click)="sendMove('rock')">
-            <img src="../../../assets/5e9ce60fb1f47.png" />
+            <img src="assets/5e9ce60fb1f47.png" />
         </div>
 
         <div *ngIf="!myPick || myPick === 'paper'" class="border m-1 paper" (click)="sendMove('paper')">
-            <img src="../../../assets/5e9ce60fb1f47.png" />
+            <img src="assets/5e9ce60fb1f47.png" />
         </div>
 
         <div *ngIf="!myPick || myPick === 'scissors'" class="border m-1 scissors" (click)="sendMove('scissors')">
-            <img src="../../../assets/5e9ce60fb1f47.png" />
+            <img src="assets/5e9ce60fb1f47.png" />
         </div>
     </div>
 </fieldset>
