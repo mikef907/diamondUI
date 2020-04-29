@@ -104,11 +104,11 @@ export class GameService {
     })
   }
 
-  getPlayer = () => this.http.get<IPlayer>(`${environment.gamesRoot}api/player`)
+  getPlayer = () => this.http.get<IPlayer>(`${environment.gamesRoot}player`)
     .pipe(tap(player => this.PlayerSubject.next(player)));
 
   postPlayer = (model: IPlayer) =>
-    this.http.post<IPlayer>(`${environment.gamesRoot}api/player`, model)
+    this.http.post<IPlayer>(`${environment.gamesRoot}player`, model)
       .pipe(tap(player => this.PlayerSubject.next(player)));
 
   issueChallenge(connectionId: string) {
@@ -121,7 +121,7 @@ export class GameService {
     });
   }
 
-  getMatches = () => this.http.get<IPlayerMatch[]>(`${environment.gamesRoot}api/player/matches`)
+  getMatches = () => this.http.get<IPlayerMatch[]>(`${environment.gamesRoot}player/matches`)
     .pipe(tap(matches => {
       this.ActiveMatchesSubject.next(matches);
     }));
@@ -129,7 +129,10 @@ export class GameService {
   sendMove = (matchId: string, type: string) => this.hubConnection.invoke('SendMove', matchId, type)
 
 
-  getGameMoves = (matchId: string) => this.http.get<IGameMove[]>(`${environment.gamesRoot}api/player/match-moves/${matchId}`)
+  getGameMoves(matchId: string) {
+    if (matchId)
+      this.http.get<IGameMove[]>(`${environment.gamesRoot}player/match-moves/${matchId}`)
+  }
 
   removeChallenge = (player: IPlayer) => this.IncomingChallengesSubject.pipe(map(challenges => {
     challenges.splice(challenges.findIndex(c => c.id === player.id), 1);

@@ -18,9 +18,9 @@ export class IdentityService {
 
   }
 
-  postCreate = (model: IUserModel) => this.http.post<IUserModel>(`${environment.identityRoot}api/user`, model);
+  postCreate = (model: IUserModel) => this.http.post<IUserModel>(`${environment.identityRoot}user`, model);
 
-  getUser = (id: string) => this.http.get<IUserModel>(`${environment.identityRoot}api/user/${id}`)
+  getUser = (id: string) => this.http.get<IUserModel>(`${environment.identityRoot}user/${id}`)
     .pipe(tap(result => {
       if (result) {
         this.UserSubject.next(new User(result));
