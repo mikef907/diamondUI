@@ -39,6 +39,7 @@ export class GameService {
   initHub() {
     this.hubConnection = new HubConnectionBuilder()
       .withUrl(`${environment.gamesRoot}games`, { accessTokenFactory: () => this.jwtHelper.tokenGetter() })
+      .withAutomaticReconnect()
       .build();
 
     this.hubConnection
