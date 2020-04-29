@@ -26,12 +26,6 @@ export class AppComponent {
         this.gameService.initHub();
       }
     })
-
-    // this.identityService.User.subscribe(user => {
-    //   if (user) {
-    //     this.gameService.initHub();
-    //   }
-    // });
   }
 
   createPlayer() {

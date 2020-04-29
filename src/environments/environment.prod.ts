@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  stsRoot: 'http://localhost:58866/',
-  identityRoot: 'http://localhost:58870/',
-  gamesRoot: 'http://localhost:58872/'
+  stsRoot: 'https://apps.debug.ahfc.us/api/sandbox2/sts/',
+  identityRoot: 'https://apps.debug.ahfc.local/api/sandbox2/identity/',
+  gamesRoot: 'https://apps.debug.ahfc.us/api/sandbox2/games/'
 };
