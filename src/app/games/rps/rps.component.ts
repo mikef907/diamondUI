@@ -35,11 +35,13 @@ export class RpsComponent implements OnInit {
     })
   })
 
-  getGameMoves = () =>
-    this.gameService.getGameMoves(this.currentMatchId).subscribe(moves => {
-      this.myMoves = moves
-      this.parseMove();
-    });
+  getGameMoves() {
+    if (this.currentMatchId)
+      this.gameService.getGameMoves(this.currentMatchId).subscribe(moves => {
+        this.myMoves = moves
+        this.parseMove();
+      });
+  }
 
   sendMove(type: string) {
     if (this.myMoves.length === 0)

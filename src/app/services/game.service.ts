@@ -129,10 +129,7 @@ export class GameService {
   sendMove = (matchId: string, type: string) => this.hubConnection.invoke('SendMove', matchId, type)
 
 
-  getGameMoves(matchId: string) {
-    if (matchId)
-      this.http.get<IGameMove[]>(`${environment.gamesRoot}player/match-moves/${matchId}`)
-  }
+  getGameMoves = (matchId: string) => this.http.get<IGameMove[]>(`${environment.gamesRoot}player/match-moves/${matchId}`);
 
   removeChallenge = (player: IPlayer) => this.IncomingChallengesSubject.pipe(map(challenges => {
     challenges.splice(challenges.findIndex(c => c.id === player.id), 1);
