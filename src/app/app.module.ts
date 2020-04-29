@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { RpsComponent } from './games/rps/rps.component';
 import { LoginComponent } from './login/login.component';
 import { CreateUserComponent } from './create-user/create-user.component';
-import { CommonModule } from '@angular/common';
+import { CommonModule, APP_BASE_HREF } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtModule } from '@auth0/angular-jwt';
@@ -36,7 +36,12 @@ import { UserListComponent } from './user-list/user-list.component';
     provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptor,
     multi: true
-  }],
+  },
+  {
+    provide: APP_BASE_HREF, useValue: '/ui/sandbox2/'
+  }
+
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
