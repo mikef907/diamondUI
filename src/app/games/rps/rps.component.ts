@@ -31,7 +31,7 @@ export class RpsComponent implements OnInit {
   issueChallenge = () => this.gameService.ActiveMatches.pipe(first(), switchMap(matches => {
     return this.gameService.Opponent.pipe(tap(player => {
       if (!matches.some(m => m.playerId === player.id)) {
-        return of(this.gameService.issueChallenge(player.connectionId));
+        this.gameService.issueChallenge(player.connectionId);
       } else {
         alert('You already have an active challenge with this opponent!')
       }
