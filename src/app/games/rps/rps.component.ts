@@ -1,3 +1,5 @@
+import { switchMap, tap, first } from 'rxjs/operators';
+import { Subject, of } from 'rxjs';
 import { GameService } from './../../services/game.service';
 import { Component, OnInit } from '@angular/core';
 import { IGameMove } from 'src/app/models/i-game-move';
@@ -12,6 +14,7 @@ export class RpsComponent implements OnInit {
   currentMatchId: string;
   myMoves: IGameMove[] = [];
   myPick: "rock" | "paper" | "scissors"
+  working: boolean = false;
 
   constructor(public gameService: GameService) { }
 
@@ -25,27 +28,32 @@ export class RpsComponent implements OnInit {
     })
   }
 
-  issueChallenge = () => this.gameService.Opponent.subscribe(player => {
-    this.gameService.ActiveMatches.subscribe(matches => {
+  issueChallenge = () => this.gameService.ActiveMatches.pipe(first(), switchMap(matches => {
+    return this.gameService.Opponent.pipe(tap(player => {
       if (!matches.some(m => m.playerId === player.id)) {
-        this.gameService.issueChallenge(player.connectionId);
+        return of(this.gameService.issueChallenge(player.connectionId));
       } else {
         alert('You already have an active challenge with this opponent!')
       }
-    })
-  })
+    }))
+  })).subscribe();
 
   getGameMoves() {
     if (this.currentMatchId)
       this.gameService.getGameMoves(this.currentMatchId).subscribe(moves => {
         this.myMoves = moves
         this.parseMove();
+        this.working = false;
       });
   }
 
   sendMove(type: string) {
-    if (this.myMoves.length === 0)
-      this.gameService.sendMove(this.currentMatchId, type).then(() => this.getGameMoves());
+    if (this.myMoves.length === 0 && !this.working) {
+      this.working = true;
+      this.gameService.sendMove(this.currentMatchId, type).then(() => {
+        this.getGameMoves()
+      });
+    }
   }
 
   parseMove() {
