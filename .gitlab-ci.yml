@@ -11,11 +11,11 @@ job:
   only:
     - master
   script:
-    - set VERSION=2020.5.1.0
+    - set VERSION=2020.5.4.0
     - call "%PROGRAMFILES%\nodejs\npm" install --silent
     #- call "%APPDATA%\npm\ng" test --browsers ChromeHeadless --watch=false
     - call "%PROGRAMFILES(X86)%\Microsoft Visual Studio\2019\Enterprise\Common7\Tools\VsDevCmd.bat"
     - call node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng build --prod --base-href /ui/sandbox2/ --no-progress
-    - dotnet octo pack --id="Ahfc.WebUi.sandbox2" --basePath=".\dist" --outFolder="." --version="%VERSION%"
+    - dotnet octo pack --id="Ahfc.WebUi.Sandbox2" --basePath=".\dist" --outFolder="." --version="%VERSION%"
     - dotnet nuget push *.nupkg --api-key %NUGET_FEED_KEY% --source %NUGET_FEED_URL%
     - set VERSION=
