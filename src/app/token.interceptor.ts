@@ -6,12 +6,11 @@ import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpInterceptor,
-  HttpErrorResponse
+  HttpInterceptor
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { catchError, retry, tap, switchMap, first } from 'rxjs/operators';
+import { catchError, tap, switchMap } from 'rxjs/operators';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
@@ -20,7 +19,9 @@ export class TokenInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
 
-    if (request.url.endsWith("refresh-token") || request.url.endsWith("access-token")) {
+    if (request.url.endsWith("refresh-token")
+      || request.url.endsWith("access-token")
+      || (request.url.endsWith("user") && request.method === "POST")) {
       return next.handle(request);
     }
     else if (this.jwtHelper.isTokenExpired(this.jwtHelper.tokenGetter())) {
