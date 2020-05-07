@@ -1,7 +1,7 @@
 import { IRefreshTokenRequest } from './../models/i-refresh-token-request';
 import { IAccessTokenResponse } from './../models/i-access-token-response';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { tap } from 'rxjs/operators';
 import { IAccessTokenRequest } from '../models/i-access-token-request';
@@ -15,6 +15,7 @@ export class StsService {
 
   postLogin = (model: IAccessTokenRequest) => {
     const payload = new HttpParams()
+      .set('Content-Type', 'application/x-www-form-urlencoded;charset=utf-8')
       .set('username', model.username)
       .set('password', model.password)
       .set('grant_type', model.grant_type);
@@ -24,13 +25,17 @@ export class StsService {
   }
 
   postRefresh = (model: IRefreshTokenRequest) => {
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/x-www-form-urlencoded;charset=utf-8')
+
     const payload = new HttpParams()
+
       .set('client_id', model.client_id)
       .set('client_secret', model.client_secret)
-      .set('refresh_token', model.refresh_token)
+      .set('refresh_token', encodeURIComponent(model.refresh_token))
       .set('grant_type', model.grant_type);
 
-    return this.http.post<IAccessTokenResponse>(`${environment.stsRoot}refresh-token`, payload)
+    return this.http.post<IAccessTokenResponse>(`${environment.stsRoot}refresh-token`, payload, { headers: headers })
       .pipe(tap(result => this.setLocalStorage(result)));
   }
 
