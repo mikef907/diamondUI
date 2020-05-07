@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IAuthenticateModel } from '../models/i-authenticate-model';
+import { IAccessTokenRequest } from '../models/i-access-token-request';
 import { StsService } from '../services/sts.service';
 import { IdentityService } from '../services/identity.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -10,9 +10,10 @@ import { JwtHelperService } from '@auth0/angular-jwt';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  model: IAuthenticateModel = {
-    email: null,
-    password: null
+  model: IAccessTokenRequest = {
+    username: null,
+    password: null,
+    grant_type: 'password'
   }
 
   constructor(private stsService: StsService, private identityService: IdentityService, private jwtHelper: JwtHelperService) { }
@@ -21,7 +22,7 @@ export class LoginComponent implements OnInit {
   }
 
   submit = () => this.stsService.postLogin(this.model).subscribe(res => {
-    const jwt = this.jwtHelper.decodeToken(res);
+    const jwt = this.jwtHelper.decodeToken(res.access_Token);
     this.identityService.getUser(jwt.unique_name).subscribe();
   });
 }

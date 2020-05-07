@@ -15,8 +15,7 @@ export class AppComponent {
     public gameService: GameService) { }
 
   ngOnInit() {
-    if (localStorage.getItem('token')
-      && !this.jwtHelper.isTokenExpired(localStorage.getItem('token'))) {
+    if (localStorage.getItem('token')) {
       const guid = this.jwtHelper.decodeToken(localStorage.getItem('token')).unique_name;
       this.identityService.getUser(guid).subscribe();
     }

@@ -25,7 +25,7 @@ export class CreateUserComponent implements OnInit {
   }
 
   create = () => this.identityService.postCreate(this.model).subscribe(result =>
-    this.stsService.postLogin({ email: this.model.email, password: this.model.password }).subscribe(token =>
+    this.stsService.postLogin({ username: this.model.email, password: this.model.password, grant_type: 'password' }).subscribe(token =>
       this.identityService.getUser(result.id).subscribe()));
 
 }

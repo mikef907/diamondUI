@@ -11,7 +11,7 @@ job:
   only:
     - master
   script:
-    - set VERSION=2020.5.4.0
+    - set VERSION=2020.5.6.0
     - call "%PROGRAMFILES%\nodejs\npm" install --silent
     #- call "%APPDATA%\npm\ng" test --browsers ChromeHeadless --watch=false
     - call "%PROGRAMFILES(X86)%\Microsoft Visual Studio\2019\Enterprise\Common7\Tools\VsDevCmd.bat"
