@@ -29,7 +29,6 @@ export class StsService {
       .set('Content-Type', 'application/x-www-form-urlencoded;charset=utf-8')
 
     const payload = new HttpParams()
-
       .set('client_id', model.client_id)
       .set('client_secret', model.client_secret)
       .set('refresh_token', encodeURIComponent(model.refresh_token))
