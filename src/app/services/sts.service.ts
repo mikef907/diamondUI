@@ -14,13 +14,15 @@ export class StsService {
   constructor(private http: HttpClient, private jwtHelper: JwtHelperService) { }
 
   postLogin = (model: IAccessTokenRequest) => {
-    const payload = new HttpParams()
+    const headers = new HttpHeaders()
       .set('Content-Type', 'application/x-www-form-urlencoded;charset=utf-8')
+
+    const payload = new HttpParams()
       .set('username', model.username)
-      .set('password', model.password)
+      .set('password', encodeURIComponent(model.password))
       .set('grant_type', model.grant_type);
 
-    return this.http.post<IAccessTokenResponse>(`${environment.stsRoot}access-token`, payload)
+    return this.http.post<IAccessTokenResponse>(`${environment.stsRoot}access-token`, payload, { headers: headers })
       .pipe(tap(result => this.setLocalStorage(result)));
   }
 
