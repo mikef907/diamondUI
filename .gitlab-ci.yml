@@ -1,7 +1,9 @@
 cache:
-  key: sandbox2
+  key:
+    files:
+      - package.json
   paths:
-    - node_modules/
+    - node_modules
 
 job:
   tags:
